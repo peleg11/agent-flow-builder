@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+coverage/
+*.tsbuildinfo
+
+# Build output
+dist/
+build/
+
+# Environment: real values stay local, the documented example is committed
+.env
+.env.*
+!.env.example
+
+# Test artifacts
+playwright-report/
+test-results/
+
+# Editors and OS
+.idea/
+.DS_Store
+
+# Claude Code: per-user local settings
+.claude/settings.local.json
