@@ -88,7 +88,7 @@ I need to be able to explain every line in this repo. For each PR:
 
 ## Keeping these rules current
 
-- Propose a new or changed rule in its own `docs:` PR. Never slip rule changes into feature work.
+- When I correct you or state a coding preference, propose adding it as a rule in its own `docs:` PR. Never slip rule changes into feature work.
 - Write each rule with its reason, so it can be judged and revisited later.
 - Keep this file under about 200 lines. If it grows past that, tighten wording or move detail into a package README or an ADR.
 - Never weaken or remove a rule without asking me first. If a rule gets in the way, say so instead of working around it.
