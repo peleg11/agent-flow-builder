@@ -27,6 +27,7 @@ A collaborative visual workflow builder for AI pipelines. Users wire nodes (LLM 
 
 - Work from a GitHub issue. If the task isn't covered by one, stop and say so.
 - Never commit to `main`. One branch and one PR per issue.
+- Never commit, push or open a PR without my explicit approval. Show me the diff, then wait for a yes. One approval covers only the action I approved. Why: I review every change before it becomes part of the project's history.
 - One concept per PR, about 300 changed lines or fewer. If it's growing, split it and open follow-up issues.
 - Stay in scope. Anything extra you notice becomes a new issue, not part of this PR.
 - Commit messages follow Conventional Commits (`feat:`, `fix:`, `test:`, `docs:`, `refactor:`, `chore:`).
@@ -88,7 +89,7 @@ I need to be able to explain every line in this repo. For each PR:
 
 ## Keeping these rules current
 
-- When I correct you or state a coding preference, propose adding it as a rule in its own `docs:` PR. Never slip rule changes into feature work.
+- When I correct you or state a coding preference, propose adding it as a rule in its own `docs:` PR. Never slip rule changes into feature work. Why: a correction made in one session is lost in the next unless it is written down, and a separate PR keeps rule changes easy to review and revert.
 - Write each rule with its reason, so it can be judged and revisited later.
-- Keep this file under about 200 lines. If it grows past that, tighten wording or move detail into a package README or an ADR.
-- Never weaken or remove a rule without asking me first. If a rule gets in the way, say so instead of working around it.
+- Keep this file under about 200 lines. If it grows past that, tighten wording or move detail into a package README or an ADR. Why: every session reads this whole file, and rules get missed when it is long.
+- Never weaken or remove a rule without asking me first. If a rule gets in the way, say so instead of working around it. Why: each rule records a decision I made, and dropping one quietly changes the project without me.
