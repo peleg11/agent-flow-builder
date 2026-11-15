@@ -18,7 +18,6 @@ dev = [
 ]
 
 [tool.ruff]
-target-version = "py312"
 line-length = 100
 
 [tool.ruff.lint]
@@ -38,6 +37,11 @@ select = [
 
 [tool.mypy]
 strict = true
+# tests/ has no __init__.py files, so without these mypy names each test module by its
+# file name alone and fails on two test files that share a name in different folders.
+# mypy_path makes the package resolve as `agent_flow_engine`, not `src.agent_flow_engine`.
+explicit_package_bases = true
+mypy_path = "src"
 # Listed here so a bare `uv run mypy` checks the package and its tests.
 files = ["src", "tests"]
 
