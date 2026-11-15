@@ -3,7 +3,9 @@ import pytest
 from agent_flow_api.settings import Settings
 
 
-def test_debug_is_off_by_default() -> None:
+def test_debug_is_off_by_default(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("AGENT_FLOW_API_DEBUG", raising=False)
+
     assert Settings(_env_file=None).debug is False
 
 
