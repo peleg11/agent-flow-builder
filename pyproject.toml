@@ -1,0 +1,4 @@
+# Workspace root only: it has no [project] of its own. The members share one lockfile
+# (uv.lock) and one virtual environment (.venv), both at the repo root. See ADR-0001.
+[tool.uv.workspace]
+members = ["apps/api", "packages/engine"]

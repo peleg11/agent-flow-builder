@@ -1,0 +1,64 @@
+[project]
+name = "agent-flow-api"
+version = "0.1.0"
+description = "FastAPI service for agent-flow-builder: HTTP, server-sent events and persistence."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "agent-flow-engine",
+    "fastapi[standard]>=0.163.0",
+    "pydantic>=2.14.3",
+    "pydantic-settings>=2.16.3",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pytest>=9.2.0",
+    "ruff>=0.17.4",
+]
+
+[tool.uv.sources]
+agent-flow-engine = { workspace = true }
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes: unused imports, undefined names
+    "I",   # isort: import order
+    "N",   # pep8-naming
+    "UP",  # pyupgrade: use modern syntax for the target Python
+    "B",   # flake8-bugbear: likely bugs, e.g. mutable default arguments
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "PT",  # flake8-pytest-style
+    "RUF", # ruff-specific rules
+]
+
+[tool.mypy]
+strict = true
+# Same reasons as in packages/engine/pyproject.toml: tests/ has no __init__.py files, and
+# the package should resolve as `agent_flow_api`, not `src.agent_flow_api`.
+explicit_package_bases = true
+mypy_path = "src"
+files = ["src", "tests"]
+# Teaches mypy the constructor arguments pydantic generates, such as `Settings(_env_file=...)`.
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--import-mode=importlib", "--strict-markers", "--strict-config", "-ra"]
+xfail_strict = true
+
+[tool.fastapi]
+# Lets a bare `uv run fastapi dev` (run from this folder) find the app. Without it the CLI
+# only looks in conventional spots such as ./main.py, which the src/ layout doesn't use.
+entrypoint = "agent_flow_api.main:app"
