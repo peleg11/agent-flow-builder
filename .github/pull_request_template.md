@@ -18,9 +18,9 @@
 
 **Alternatives considered:**
 
+Closes #
+
 ## What I learned
 
 <!-- The PR author fills this in by hand. Claude sessions leave it empty. -->
 <!-- Anything new or surprising: a tool, a pattern, a mistake to avoid. -->
-
-Closes #
