@@ -23,4 +23,4 @@ Run these from `packages/engine`. You need [uv](https://docs.astral.sh/uv/), whi
 | `uv run mypy` | Type check with `--strict` |
 | `uv run pytest` | Run the tests |
 
-All tool settings live in `pyproject.toml`.
+Tool settings live in `pyproject.toml`. Its ruff config extends the shared rules in the root `pyproject.toml` and adds the banned imports.

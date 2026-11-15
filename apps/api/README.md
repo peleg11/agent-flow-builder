@@ -28,4 +28,4 @@ Run these from `apps/api`. You need [uv](https://docs.astral.sh/uv/). This packa
 | `uv run mypy` | Type check with `--strict` |
 | `uv run pytest` | Run the tests |
 
-`fastapi dev` finds the app through `[tool.fastapi] entrypoint` in `pyproject.toml`. It reads that file from the current folder, so run the command from `apps/api`. All tool settings live in `pyproject.toml`.
+`fastapi dev` finds the app through `[tool.fastapi] entrypoint` in `pyproject.toml`. It reads that file from the current folder, so run the command from `apps/api`. Tool settings live in `pyproject.toml`, except the ruff rules shared with the engine, which live in the root `pyproject.toml`.

@@ -25,24 +25,6 @@ dev = [
 [tool.uv.sources]
 agent-flow-engine = { workspace = true }
 
-[tool.ruff]
-line-length = 100
-
-[tool.ruff.lint]
-select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes: unused imports, undefined names
-    "I",   # isort: import order
-    "N",   # pep8-naming
-    "UP",  # pyupgrade: use modern syntax for the target Python
-    "B",   # flake8-bugbear: likely bugs, e.g. mutable default arguments
-    "C4",  # flake8-comprehensions
-    "SIM", # flake8-simplify
-    "PT",  # flake8-pytest-style
-    "RUF", # ruff-specific rules
-]
-
 [tool.mypy]
 strict = true
 # Same reasons as in packages/engine/pyproject.toml: tests/ has no __init__.py files, and
