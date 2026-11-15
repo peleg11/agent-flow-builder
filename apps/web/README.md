@@ -16,7 +16,7 @@ The React frontend for agent-flow-builder. It will hold the canvas where you wir
 
 ## Commands
 
-Run these from `apps/web`. You need Node.js 20.19+ or 22.12+ (Vite's minimum) and [pnpm](https://pnpm.io/). Run `pnpm install` first.
+Run these from `apps/web`. You need Node.js 22.22+, 24.15+ or 26+ (jsdom's minimum, the strictest of the dependencies) and [pnpm](https://pnpm.io/). Run `pnpm install` first.
 
 | Command          | What it does                                           |
 | ---------------- | ------------------------------------------------------ |

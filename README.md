@@ -29,7 +29,7 @@ The three code packages arrive in later M1 issues. Why the repo is laid out this
 The API serves a health check locally: see [apps/api/README.md](apps/api/README.md). The web app renders a placeholder page: see [apps/web/README.md](apps/web/README.md). Once all the packages land you will need:
 
 - Python 3.12 or newer, with [uv](https://docs.astral.sh/uv/)
-- Node.js 20.19+ or 22.12+, with [pnpm](https://pnpm.io/)
+- Node.js 22.22+, 24.15+ or 26+, with [pnpm](https://pnpm.io/)
 - [just](https://just.systems/)
 
 Then `just check` will run lint, type checks and tests for everything, the same as CI. This section is updated as each package is added.
