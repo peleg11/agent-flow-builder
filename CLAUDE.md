@@ -31,7 +31,7 @@ A collaborative visual workflow builder for AI pipelines. Users wire nodes (LLM 
 - One concept per PR, about 300 changed lines or fewer. If it's growing, split it and open follow-up issues.
 - Stay in scope. Anything extra you notice becomes a new issue, not part of this PR.
 - Commit messages follow Conventional Commits (`feat:`, `fix:`, `test:`, `docs:`, `refactor:`, `chore:`).
-- Fill in every field of the PR template. "Closes #N" goes in the description.
+- Fill in every field of the PR template except "What I learned": leave its placeholder untouched. Why: it records what I learned, in my own words, so only I can write it. "Closes #N" goes in the description.
 - Add a dependency only with a one-line justification in the PR. Significant ones need an ADR.
 
 ## Explain the work
@@ -83,7 +83,7 @@ I need to be able to explain every line in this repo. For each PR:
 - `just check` passes locally.
 - Tests added or updated.
 - Docs or ADR updated if a decision changed.
-- PR template complete, including the walkthrough.
+- PR template complete, including the walkthrough ("What I learned" stays empty for me).
 
 <!-- EDIT: add your own rules below. Your personal style, naming conventions, folder habits, review pet peeves. -->
 
