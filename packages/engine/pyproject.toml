@@ -18,21 +18,10 @@ dev = [
 ]
 
 [tool.ruff]
-line-length = 100
+extend = "../../pyproject.toml"
 
 [tool.ruff.lint]
-select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes: unused imports, undefined names
-    "I",   # isort: import order
-    "N",   # pep8-naming
-    "UP",  # pyupgrade: use modern syntax for the target Python
-    "B",   # flake8-bugbear: likely bugs, e.g. mutable default arguments
-    "C4",  # flake8-comprehensions
-    "SIM", # flake8-simplify
-    "PT",  # flake8-pytest-style
-    "RUF", # ruff-specific rules
+extend-select = [
     "TID", # flake8-tidy-imports: enforces the banned imports below
 ]
 

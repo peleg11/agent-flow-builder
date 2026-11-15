@@ -1,0 +1,26 @@
+# Workspace root only: it has no [project] of its own. The members share one lockfile
+# (uv.lock) and one virtual environment (.venv), both at the repo root. See ADR-0001.
+[tool.uv.workspace]
+members = ["apps/api", "packages/engine"]
+
+# Shared by every workspace member: ruff uses the nearest pyproject.toml with a
+# [tool.ruff] section, so apps/api picks this up as is. The engine extends it.
+[tool.ruff]
+line-length = 100
+# Lets import sorting tell our own packages apart from third-party ones.
+src = ["apps/api/src", "packages/engine/src"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes: unused imports, undefined names
+    "I",   # isort: import order
+    "N",   # pep8-naming
+    "UP",  # pyupgrade: use modern syntax for the target Python
+    "B",   # flake8-bugbear: likely bugs, e.g. mutable default arguments
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "PT",  # flake8-pytest-style
+    "RUF", # ruff-specific rules
+]

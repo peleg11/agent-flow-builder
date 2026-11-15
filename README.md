@@ -26,7 +26,7 @@ The three code packages arrive in later M1 issues. Why the repo is laid out this
 
 ## Running it
 
-There is nothing to run yet. Once the packages land you will need:
+The API serves a health check locally: see [apps/api/README.md](apps/api/README.md). Once all the packages land you will need:
 
 - Python 3.12 or newer, with [uv](https://docs.astral.sh/uv/)
 - Node.js with [pnpm](https://pnpm.io/)
