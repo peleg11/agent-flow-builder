@@ -6,6 +6,8 @@ The pure Python engine that runs workflow graphs (DAGs) built in agent-flow-buil
 
 This package never imports HTTP or database code: no FastAPI, no HTTP clients, no ORMs, no database drivers.
 
+Lint enforces this rule. `uv run ruff check` fails if the package imports `fastapi`, `starlette`, `httpx`, `requests`, `aiohttp`, `sqlalchemy`, `asyncpg` or `psycopg`. The list lives under `[tool.ruff.lint.flake8-tidy-imports.banned-api]` in `pyproject.toml`. It only covers the libraries it names, so review still catches anything else.
+
 The engine receives everything it needs from outside as parameters: a clock, node executors and an event sink. `apps/api` handles HTTP and persistence and calls into the engine. The dependency points one way only: the API imports the engine, never the reverse.
 
 Why: an engine with no I/O can be tested in isolation, quickly and deterministically, and it can be reused outside the web service. See [ADR-0001](../../docs/adr/0001-monorepo-layout.md).
