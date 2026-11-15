@@ -37,4 +37,4 @@ Tooling:
 - Contributors need three tools: uv, pnpm and just. The README lists them.
 - `just` is a thin layer of shell recipes, so there is no caching. Every `just check` runs everything. That is acceptable at this size.
 - Python and JavaScript dependencies are locked separately (`uv.lock` and `pnpm-lock.yaml`), so dependency updates are configured per ecosystem.
-- Keeping the engine free of HTTP and DB code is enforced by package boundaries and review. A lint rule for forbidden imports could come later if needed.
+- Keeping the engine free of HTTP and DB code is enforced by package boundaries and review. A lint rule for forbidden imports could come later if needed. (Update: #12 added this rule. Ruff's banned-api setting in `packages/engine/pyproject.toml` now rejects common HTTP and database libraries.)

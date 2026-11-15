@@ -33,7 +33,20 @@ select = [
     "SIM", # flake8-simplify
     "PT",  # flake8-pytest-style
     "RUF", # ruff-specific rules
+    "TID", # flake8-tidy-imports: enforces the banned imports below
 ]
+
+# The engine must stay free of HTTP and database code (see README.md and ADR-0001).
+# Banning a module also bans its submodules and `from ... import` forms.
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"fastapi".msg = "The engine never imports HTTP code. See packages/engine/README.md."
+"starlette".msg = "The engine never imports HTTP code. See packages/engine/README.md."
+"httpx".msg = "The engine never imports HTTP code. See packages/engine/README.md."
+"requests".msg = "The engine never imports HTTP code. See packages/engine/README.md."
+"aiohttp".msg = "The engine never imports HTTP code. See packages/engine/README.md."
+"sqlalchemy".msg = "The engine never imports database code. See packages/engine/README.md."
+"asyncpg".msg = "The engine never imports database code. See packages/engine/README.md."
+"psycopg".msg = "The engine never imports database code. See packages/engine/README.md."
 
 [tool.mypy]
 strict = true
