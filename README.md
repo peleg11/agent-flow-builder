@@ -22,17 +22,26 @@ Milestone 1 (foundation) is in progress. There are no product features yet. The 
 | `docs/adr` | Architecture decision records |
 | `docs/plans` | Per-milestone plans |
 
-The three code packages arrive in later M1 issues. Why the repo is laid out this way is recorded in [ADR-0001](docs/adr/0001-monorepo-layout.md).
+Why the repo is laid out this way is recorded in [ADR-0001](docs/adr/0001-monorepo-layout.md).
 
 ## Running it
 
-The API serves a health check locally: see [apps/api/README.md](apps/api/README.md). The web app renders a placeholder page: see [apps/web/README.md](apps/web/README.md). Once all the packages land you will need:
+The API serves a health check locally: see [apps/api/README.md](apps/api/README.md). The web app renders a placeholder page: see [apps/web/README.md](apps/web/README.md). You need:
 
 - Python 3.12 or newer, with [uv](https://docs.astral.sh/uv/)
 - Node.js 22.22+, 24.15+ or 26+, with [pnpm](https://pnpm.io/)
 - [just](https://just.systems/)
 
-Then `just check` will run lint, type checks and tests for everything, the same as CI. This section is updated as each package is added.
+Run `pnpm install` once in `apps/web`. Then, from the repo root:
+
+| Command | What it does |
+| --- | --- |
+| `just check` | Lint, type check and test all three packages |
+| `just engine` | The same, for `packages/engine` only |
+| `just api` | The same, for `apps/api` only |
+| `just web` | The same, for `apps/web` only |
+
+CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs these same recipes on every pull request and every push to `main`, one job per package.
 
 ## License
 
