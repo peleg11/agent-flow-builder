@@ -22,7 +22,7 @@ Milestone 1 (foundation) is in progress. There are no product features yet. The 
 | `docs/adr` | Architecture decision records |
 | `docs/plans` | Per-milestone plans |
 
-The three code packages arrive in later M1 issues. Why the repo is laid out this way is recorded in [ADR-0001](docs/adr/0001-monorepo-layout.md).
+Why the repo is laid out this way is recorded in [ADR-0001](docs/adr/0001-monorepo-layout.md).
 
 ## Running it
 
