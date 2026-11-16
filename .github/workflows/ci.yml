@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Each job runs the matching `just` recipe, so CI and `just check` can't drift apart.
+# Job names are fixed (no matrix) because branch protection refers to them.
+jobs:
+  engine:
+    name: engine
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: extractions/setup-just@v4
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          enable-cache: true
+      # Engine only, not the whole workspace: FastAPI and DB libraries must be missing
+      # here, so an import of them fails the checks. Locally both share one venv.
+      - run: uv sync --locked --package agent-flow-engine
+      - run: just engine
+
+  api:
+    name: api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: extractions/setup-just@v4
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          enable-cache: true
+      - run: uv sync --locked --package agent-flow-api
+      - run: just api
+
+  web:
+    name: web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: extractions/setup-just@v4
+      # Reads the pnpm version from `packageManager`. Must run before setup-node's pnpm cache.
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: apps/web/package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: apps/web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: apps/web
+      - run: just web
