@@ -43,6 +43,17 @@ Run `pnpm install` once in `apps/web`. Then, from the repo root:
 
 CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs these same recipes on every pull request and every push to `main`, one job per package.
 
+## Review process
+
+`main` is protected: every change goes through a pull request, and a pull request merges only when CI passes. Each one goes through:
+
+1. **CI** runs `just check`, one job per package. It must be green.
+2. **CodeRabbit** posts an automated review on the pull request.
+3. **`/code-review`**: run it in Claude Code locally before asking for a merge.
+4. **Merge** with a squash merge. The branch is deleted afterwards.
+
+Dependabot opens weekly pull requests for Python, npm and GitHub Actions updates ([`.github/dependabot.yml`](.github/dependabot.yml)). They go through the same steps.
+
 ## License
 
 [MIT](LICENSE)
