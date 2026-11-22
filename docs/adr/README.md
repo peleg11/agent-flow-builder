@@ -19,3 +19,5 @@ ADRs are not edited after they are accepted, except to fix typos. To change a de
 | ADR | Title | Status |
 | --- | --- | --- |
 | [0001](0001-monorepo-layout.md) | Monorepo layout and tooling | Accepted |
+| [0002](0002-persistence.md) | Persistence with Postgres and SQLAlchemy | Accepted |
+| [0003](0003-graph-storage.md) | Store a workflow's graph as one JSONB column | Accepted |
