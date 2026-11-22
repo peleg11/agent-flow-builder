@@ -1,6 +1,6 @@
 ---
 name: Task
-about: One unit of work that becomes one PR (about 300 changed lines or fewer)
+about: One unit of work that becomes one PR (about 300 changed lines or fewer, not counting generated files and lockfiles)
 title: ""
 labels: []
 ---

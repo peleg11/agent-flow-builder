@@ -28,7 +28,7 @@ A collaborative visual workflow builder for AI pipelines. Users wire nodes (LLM 
 - Work from a GitHub issue. If the task isn't covered by one, stop and say so.
 - Never commit to `main`. One branch and one PR per issue.
 - Never commit, push or open a PR without my explicit approval. Show me the diff, then wait for a yes. One approval covers only the action I approved. Why: I review every change before it becomes part of the project's history.
-- One concept per PR, about 300 changed lines or fewer. If it's growing, split it and open follow-up issues.
+- One concept per PR, about 300 changed lines or fewer, not counting generated files and lockfiles. If it's growing, split it and open follow-up issues. Why: nobody reviews generated files and lockfiles line by line, so counting them would split PRs for no reason.
 - Stay in scope. Anything extra you notice becomes a new issue, not part of this PR.
 - Commit messages follow Conventional Commits (`feat:`, `fix:`, `test:`, `docs:`, `refactor:`, `chore:`).
 - Fill in every field of the PR template except "What I learned": leave its placeholder untouched. Why: it records what I learned, in my own words, so only I can write it. "Closes #N" goes in the description.
@@ -61,7 +61,7 @@ I need to be able to explain every line in this repo. For each PR:
 
 - `strict` mode. No `any`. No `!` non-null assertions without a comment explaining why.
 - Small components. Logic goes in hooks, state goes in Jotai atoms next to the feature that uses them.
-- Parse and validate data at the boundary. Don't trust API or user input.
+- Parse and validate user input and data from outside services. Responses from our own API are trusted through the generated types. Why: FastAPI already validates every response against its Pydantic model, and CI fails if the generated types are stale.
 
 ## Testing
 
@@ -70,6 +70,7 @@ I need to be able to explain every line in this repo. For each PR:
 - Unit tests for the engine and pure logic. Integration tests for the API against a real Postgres (testcontainers). Playwright for key user journeys.
 - Don't mock our own domain code. Mock only at the edges (network, clock, LLM providers).
 - A PR that changes behavior without a test needs a stated reason.
+- A PR that adds or changes UI includes a Playwright test for it. Why: if there's a UI, it can be tested, and the test is cheapest to write alongside the feature.
 
 ## Clean code
 
