@@ -1,6 +1,6 @@
 # agent-flow-engine
 
-The pure Python engine that runs workflow graphs (DAGs) built in agent-flow-builder. Later milestones add the graph model, the scheduler and node execution. It has no logic yet.
+The pure Python engine that runs workflow graphs (DAGs) built in agent-flow-builder. It has a graph model and `validate_graph` (in `graph.py`), which checks that a graph is a valid DAG. Later milestones add the scheduler and node execution.
 
 ## The one rule: no HTTP or database code
 
