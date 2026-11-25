@@ -23,10 +23,27 @@ def test_duplicate_node_id_is_reported_once_per_id() -> None:
     ]
 
 
-def test_edge_to_missing_node_is_reported() -> None:
+def test_edge_to_missing_target_is_reported() -> None:
     assert validate_graph(graph("a", "a>ghost")) == [
         GraphProblem("missing_node", "Edge a -> ghost points to missing node ghost", ("a", "ghost"))
     ]
+
+
+def test_edge_from_missing_source_is_reported() -> None:
+    assert validate_graph(graph("b", "ghost>b")) == [
+        GraphProblem("missing_node", "Edge ghost -> b points to missing node ghost", ("ghost", "b"))
+    ]
+
+
+def test_self_loop_on_missing_node_names_it_once() -> None:
+    assert validate_graph(graph("", "x>x")) == [
+        GraphProblem("missing_node", "Edge x -> x points to missing node x", ("x",))
+    ]
+
+
+def test_repeated_edge_is_reported_once() -> None:
+    codes = [p.code for p in validate_graph(graph("a", "a>a a>a a>ghost a>ghost"))]
+    assert codes == ["self_loop", "missing_node"]
 
 
 def test_self_loop_is_reported_and_not_also_as_a_cycle() -> None:
@@ -35,10 +52,23 @@ def test_self_loop_is_reported_and_not_also_as_a_cycle() -> None:
     ]
 
 
-def test_cycle_is_reported_with_its_nodes_in_order() -> None:
-    assert validate_graph(graph("start a b c", "start>a a>b b>c c>a")) == [
-        GraphProblem("cycle", "Nodes a -> b -> c -> a form a cycle", ("a", "b", "c"))
+def test_cycle_is_reported_with_only_its_nodes() -> None:
+    assert validate_graph(graph("start a b c end", "start>a a>b b>c c>a c>end")) == [
+        GraphProblem("cycle", "Nodes a, b, c form a cycle", ("a", "b", "c"))
     ]
+
+
+def test_every_node_on_overlapping_cycles_is_reported_whatever_the_edge_order() -> None:
+    expected = [GraphProblem("cycle", "Nodes a, b, c form a cycle", ("a", "b", "c"))]
+    assert validate_graph(graph("a b c", "a>b b>a a>c c>b")) == expected
+    assert validate_graph(graph("a b c", "a>c c>b a>b b>a")) == expected
+
+
+def test_separate_cycles_are_reported_separately() -> None:
+    codes_and_nodes = [
+        (p.code, p.node_ids) for p in validate_graph(graph("a b c d", "a>b b>a c>d d>c"))
+    ]
+    assert codes_and_nodes == [("cycle", ("a", "b")), ("cycle", ("c", "d"))]
 
 
 def test_every_problem_is_reported_together() -> None:
@@ -46,7 +76,9 @@ def test_every_problem_is_reported_together() -> None:
     assert codes == ["duplicate_node_id", "self_loop", "missing_node", "cycle"]
 
 
-def test_long_chain_does_not_hit_the_recursion_limit() -> None:
+def test_long_graph_does_not_hit_the_recursion_limit() -> None:
     ids = [f"n{i}" for i in range(5000)]
-    edges = " ".join(f"{a}>{b}" for a, b in pairwise(ids))
-    assert validate_graph(graph(" ".join(ids), edges)) == []
+    chain = " ".join(f"{a}>{b}" for a, b in pairwise(ids))
+    assert validate_graph(graph(" ".join(ids), chain)) == []
+    ring = validate_graph(graph(" ".join(ids), f"{chain} n4999>n0"))
+    assert [p.node_ids for p in ring] == [tuple(ids)]
