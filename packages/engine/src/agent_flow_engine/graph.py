@@ -5,17 +5,19 @@ from collections.abc import Container
 from dataclasses import dataclass
 from typing import Literal
 
+type NodeId = str
+
 
 @dataclass(frozen=True)
 class Node:
-    id: str
+    id: NodeId
     type: str
 
 
 @dataclass(frozen=True)
 class Edge:
-    source: str
-    target: str
+    source: NodeId
+    target: NodeId
 
 
 @dataclass(frozen=True)
@@ -33,7 +35,7 @@ class GraphProblem:
 
     code: ProblemCode
     message: str
-    node_ids: tuple[str, ...]
+    node_ids: tuple[NodeId, ...]
 
 
 def validate_graph(graph: Graph) -> list[GraphProblem]:
@@ -43,7 +45,7 @@ def validate_graph(graph: Graph) -> list[GraphProblem]:
     """
     node_ids = [node.id for node in graph.nodes]
     problems = _duplicate_node_problems(node_ids)
-    adjacency: dict[str, list[str]] = {node_id: [] for node_id in node_ids}
+    adjacency: dict[NodeId, list[NodeId]] = {node_id: [] for node_id in node_ids}
     for edge in dict.fromkeys(graph.edges):
         problem = _missing_node_problem(edge, adjacency) or _self_loop_problem(edge)
         if problem:
@@ -54,7 +56,7 @@ def validate_graph(graph: Graph) -> list[GraphProblem]:
     return problems
 
 
-def _duplicate_node_problems(node_ids: list[str]) -> list[GraphProblem]:
+def _duplicate_node_problems(node_ids: list[NodeId]) -> list[GraphProblem]:
     return [
         GraphProblem("duplicate_node_id", f"{count} nodes share the id {node_id}", (node_id,))
         for node_id, count in Counter(node_ids).items()
@@ -62,7 +64,7 @@ def _duplicate_node_problems(node_ids: list[str]) -> list[GraphProblem]:
     ]
 
 
-def _missing_node_problem(edge: Edge, node_ids: Container[str]) -> GraphProblem | None:
+def _missing_node_problem(edge: Edge, node_ids: Container[NodeId]) -> GraphProblem | None:
     ends = tuple(dict.fromkeys((edge.source, edge.target)))
     missing = [end for end in ends if end not in node_ids]
     if not missing:
@@ -77,13 +79,13 @@ def _self_loop_problem(edge: Edge) -> GraphProblem | None:
     return GraphProblem("self_loop", f"Node {edge.source} has an edge to itself", (edge.source,))
 
 
-def _cycle_problems(adjacency: dict[str, list[str]]) -> list[GraphProblem]:
+def _cycle_problems(adjacency: dict[NodeId, list[NodeId]]) -> list[GraphProblem]:
     """One problem per strongly connected component with more than one node.
 
     A node is on a cycle exactly when its component has other nodes (self-loops are reported
     separately), so this lists every node on every cycle, whatever order the edges came in.
     """
-    groups: dict[str, list[str]] = {}
+    groups: dict[NodeId, list[NodeId]] = {}
     for node, root in _component_roots(adjacency).items():
         groups.setdefault(root, []).append(node)
     return [
@@ -93,17 +95,17 @@ def _cycle_problems(adjacency: dict[str, list[str]]) -> list[GraphProblem]:
     ]
 
 
-def _component_roots(adjacency: dict[str, list[str]]) -> dict[str, str]:
+def _component_roots(adjacency: dict[NodeId, list[NodeId]]) -> dict[NodeId, NodeId]:
     """Kosaraju's algorithm: map each node, in adjacency order, to its component's root.
 
     Both passes use explicit stacks, not recursion, so a long chain of nodes cannot hit
     Python's recursion limit.
     """
-    reverse: dict[str, list[str]] = {node: [] for node in adjacency}
+    reverse: dict[NodeId, list[NodeId]] = {node: [] for node in adjacency}
     for source, targets in adjacency.items():
         for target in targets:
             reverse[target].append(source)
-    root_of: dict[str, str] = {}
+    root_of: dict[NodeId, NodeId] = {}
     for root in reversed(_post_order(adjacency)):
         if root in root_of:
             continue
@@ -117,10 +119,10 @@ def _component_roots(adjacency: dict[str, list[str]]) -> dict[str, str]:
     return {node: root_of[node] for node in adjacency}
 
 
-def _post_order(adjacency: dict[str, list[str]]) -> list[str]:
+def _post_order(adjacency: dict[NodeId, list[NodeId]]) -> list[NodeId]:
     """Every node, each listed after all the nodes reachable from it (depth-first)."""
-    visited: set[str] = set()
-    order: list[str] = []
+    visited: set[NodeId] = set()
+    order: list[NodeId] = []
     for start in adjacency:
         if start in visited:
             continue
